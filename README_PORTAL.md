@@ -1,6 +1,6 @@
 # Portal público SPLAMSAN
 
-Arquivos do passo 6 do MVP, agora com mapa Leaflet:
+Arquivos do MVP, projeto sem fins lucrativos visando apoiar a criação de indicadores para segurança alimentar em municípios do estado do Paraná. 
 
 - `index.html`: estrutura da página inicial.
 - `styles.css`: identidade visual e responsividade.
