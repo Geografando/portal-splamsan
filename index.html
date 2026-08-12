@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Portal público de monitoramento dos Planos Municipais de Segurança Alimentar e Nutricional.">
+  <title>SPLAMSAN | Monitoramento Municipal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#inicio" aria-label="Página inicial do SPLAMSAN">
+        <span class="brand-mark" aria-hidden="true">SP</span>
+        <span>
+          <strong>SPLAMSAN</strong>
+          <small>Monitoramento municipal</small>
+        </span>
+      </a>
+
+      <nav class="main-nav" aria-label="Navegação principal">
+        <a href="#inicio">Início</a>
+        <a href="#municipios">Municípios</a>
+        <a href="#sobre">Sobre</a>
+        <a class="button button-small button-outline" id="link-tooljet-topo" href="#" target="_blank" rel="noopener noreferrer">Área do colaborador</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Segurança alimentar e nutricional</p>
+          <h1>Acompanhe o progresso validado dos planos municipais</h1>
+          <p class="hero-text">Consulte indicadores, municípios participantes e informações públicas aprovadas pela equipe responsável pelo monitoramento.</p>
+          <div class="hero-actions">
+            <a class="button" href="#municipios">Explorar municípios</a>
+            <a class="button button-secondary" id="link-tooljet-hero" href="#" target="_blank" rel="noopener noreferrer">Acessar plataforma interna</a>
+          </div>
+          <p class="privacy-note">O portal exibe somente informações marcadas como públicas. Respostas brutas, pareceres e dados de usuários permanecem protegidos.</p>
+        </div>
+
+        <aside class="hero-panel" aria-label="Resumo do monitoramento">
+          <span class="status-dot"></span>
+          <p>Dados conectados ao sistema de monitoramento</p>
+          <strong id="hero-progresso">Carregando indicadores...</strong>
+          <small id="hero-atualizacao">Aguardando consulta ao banco de dados</small>
+        </aside>
+      </div>
+    </section>
+
+    <section class="stats-section" aria-labelledby="titulo-indicadores">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Visão geral</p>
+            <h2 id="titulo-indicadores">Indicadores públicos</h2>
+          </div>
+          <p id="status-api" class="api-status" role="status" aria-live="polite">Conectando ao Supabase...</p>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span>Municípios cadastrados</span>
+            <strong id="total-municipios">...</strong>
+          </article>
+          <article class="stat-card">
+            <span>Checkpoints monitorados</span>
+            <strong id="total-checkpoints">...</strong>
+          </article>
+          <article class="stat-card">
+            <span>Checkpoints públicos</span>
+            <strong id="total-publicos">...</strong>
+          </article>
+          <article class="stat-card stat-card-accent">
+            <span>Progresso geral ponderado</span>
+            <strong id="progresso-geral">...</strong>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="municipios-section" id="municipios" aria-labelledby="titulo-municipios">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Território</p>
+            <h2 id="titulo-municipios">Municípios participantes</h2>
+          </div>
+          <p>Selecione um município para consultar seu progresso e suas informações públicas.</p>
+        </div>
+
+        <div id="mensagem-erro" class="error-box" hidden role="alert"></div>
+        <div class="map-layout">
+          <div class="map-panel">
+            <div class="map-toolbar"><div><strong>Mapa dos municípios</strong><span>Clique em um marcador para ver o resumo.</span></div><button id="recentralizar-mapa" class="map-reset" type="button">Recentrar mapa</button></div>
+            <div id="mapa-municipios" role="region" aria-label="Mapa interativo dos municípios participantes"></div>
+            <p class="map-help">Os marcadores usam as coordenadas cadastradas na base de dados. A cor representa a faixa de progresso validado.</p>
+          </div>
+          <aside class="map-legend" aria-label="Legenda do progresso"><strong>Faixas de progresso</strong><span><i style="--legend-color:#7b8790"></i> 0% a 20%</span><span><i style="--legend-color:#c75b50"></i> acima de 20% a 40%</span><span><i style="--legend-color:#d99731"></i> acima de 40% a 60%</span><span><i style="--legend-color:#2f82ad"></i> acima de 60% a 80%</span><span><i style="--legend-color:#347657"></i> acima de 80% a 100%</span></aside>
+        </div>
+        <h3 class="list-title">Lista de municípios</h3>
+        <div id="lista-municipios" class="municipios-grid" aria-live="polite">
+          <article class="municipio-card skeleton" aria-hidden="true"></article>
+          <article class="municipio-card skeleton" aria-hidden="true"></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="details-section" id="detalhes" hidden aria-labelledby="titulo-detalhes">
+      <div class="container">
+        <button class="back-button" id="fechar-detalhes" type="button">← Voltar aos municípios</button>
+        <div class="details-header">
+          <div>
+            <p class="eyebrow">Informações públicas</p>
+            <h2 id="titulo-detalhes">Município</h2>
+            <p id="subtitulo-detalhes"></p>
+          </div>
+          <div class="progress-circle" id="circulo-progresso" aria-label="Progresso municipal">
+            <strong id="percentual-detalhes">0%</strong>
+          </div>
+        </div>
+        <div id="lista-checkpoints" class="checkpoints-list"></div>
+      </div>
+    </section>
+
+    <section class="about-section" id="sobre">
+      <div class="container about-grid">
+        <div>
+          <p class="eyebrow">Sobre o projeto</p>
+          <h2>Transparência com validação técnica</h2>
+        </div>
+        <div>
+          <p>O progresso é calculado em dois níveis. Primeiro, as perguntas validadas são ponderadas para formar o progresso de cada checkpoint. Depois, os checkpoints são ponderados para formar o progresso total do município.</p>
+          <p>Somente checkpoints explicitamente autorizados pelos avaliadores aparecem neste portal.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>SPLAMSAN</strong>
+        <p>Portal público de monitoramento municipal.</p>
+      </div>
+      <a id="link-tooljet-rodape" href="#" target="_blank" rel="noopener noreferrer">Área do colaborador</a>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
