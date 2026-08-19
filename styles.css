@@ -61,8 +61,101 @@ button, input { font: inherit; }
 .button-outline { background: transparent; color: var(--blue); border: 1px solid var(--blue); }
 .button-small { min-height: 40px; padding: 0 14px; }
 
-.hero { padding: 90px 0 76px; background: radial-gradient(circle at 80% 10%, #dceef7 0, transparent 34%), linear-gradient(135deg, #f8faf8, var(--cream)); }
-.hero-grid { display: grid; grid-template-columns: 1.35fr .65fr; gap: 64px; align-items: center; }
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  padding: 90px 0 165px;
+
+  background:
+    radial-gradient(
+      circle at 80% 10%,
+      #dceef7 0,
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      #f8faf8,
+      var(--cream)
+    );
+}
+.hero::before {
+  content: "";
+
+  position: absolute;
+  z-index: 0;
+
+  top: 8px;
+  left: 12%;
+  right: 1%;
+
+  height: 205px;
+
+  background-image: url("./assets/capas-superior.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: 100% auto;
+
+  opacity: 0.200;
+
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+
+  pointer-events: none;
+}
+.hero::after {
+  content: "";
+
+  position: absolute;
+  z-index: 0;
+
+  left: 12%;
+  right: 1%;
+  bottom: 8px;
+
+  height: 225px;
+
+  background-image: url("./assets/capas-inferior.png");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: 100% auto;
+
+  opacity: 0.200;
+
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+
+  pointer-events: none;
+}
+.hero-grid { position: relative;
+z-index: 1; display: grid; grid-template-columns: 1.35fr .65fr; gap: 64px; align-items: center; }
 .eyebrow { margin: 0 0 10px; color: var(--green); font-size: .78rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
 h1, h2 { color: var(--navy); line-height: 1.12; }
 h1 { max-width: 780px; margin: 0; font-size: clamp(2.5rem, 6vw, 4.8rem); letter-spacing: -.045em; }
