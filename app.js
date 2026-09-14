@@ -79,7 +79,9 @@ function renderizarMapa(){
     const progresso=Math.min(100,Math.max(0,numero(m.progresso_municipio))); const publicos=numero(m.checkpoints_publicos);
     const marcador=L.circleMarker([Number(m.latitude),Number(m.longitude)],{radius:12,fillColor:corProgresso(progresso),color:"#fff",weight:3,opacity:1,fillOpacity:.95});
     marcador.bindTooltip(`${m.municipio}: ${percentual(progresso)}`,{direction:"top",offset:[0,-9]});
-    marcador.bindPopup(`<div class="portal-popup"><h3>${m.municipio}</h3><span class="popup-ibge">Código IBGE ${m.codigo_ibge||"não informado"}</span><div class="popup-progress">${percentual(progresso)}</div><p>${publicos?`${publicos} checkpoint(s) público(s)`:"Nenhuma meta pública disponível"}</p><button type="button" onclick="fecharPopupEAbrirDetalhes('${m.municipio_id}')">Ver detalhes</button></div>`);
+    marcador.bindPopup(`<div class="portal-popup"><h3>${m.municipio}</h3><span class="popup-ibge">Código IBGE ${m.codigo_ibge||"não informado"}</span><div class="popup-progress">${percentual(progresso)}</div><p>${publicos?publicos === 1
+  ? "1 meta pública"
+  : `${publicos} metas públicas`:"Nenhuma meta pública disponível"}</p><button type="button" onclick="fecharPopupEAbrirDetalhes('${m.municipio_id}')">Ver detalhes</button></div>`);
     marcador.addTo(grupo);
   });
   limitesMapa=grupo.getBounds().pad(.35); mapa.fitBounds(limitesMapa,{maxZoom:11}); setTimeout(()=>mapa.invalidateSize(),100);
