@@ -140,7 +140,7 @@ function abrirDetalhes(municipioId) {
             <span class="tag">Prazo: ${item.prazo ? dataPtBr(`${item.prazo}T12:00:00`) : "não informado"}</span>
           </div>
         </article>`).join("")
-    : `<div class="empty-state">Este município participa do monitoramento, mas ainda não possui checkpoints liberados para consulta pública.</div>`;
+    : `<div class="empty-state">Este município participa do monitoramento, mas ainda não possui metas liberadas para consulta pública.</div>`;
 
   $("detalhes").hidden = false;
   $("detalhes").scrollIntoView({ behavior: "smooth", block: "start" });
