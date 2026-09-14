@@ -124,7 +124,7 @@ function abrirDetalhes(municipioId) {
 
   const progresso = Math.min(100, Math.max(0, numero(municipio.progresso_municipio)));
   $("titulo-detalhes").textContent = municipio.municipio;
-  $("subtitulo-detalhes").textContent = `Código IBGE ${municipio.codigo_ibge} · ${numero(municipio.total_checkpoints)} checkpoints monitorados`;
+  $("subtitulo-detalhes").textContent = `Código IBGE ${municipio.codigo_ibge} · ${numero(municipio.total_checkpoints)} metas monitoradas`;
   $("percentual-detalhes").textContent = percentual(progresso);
   $("circulo-progresso").style.background = `conic-gradient(var(--blue) ${progresso * 3.6}deg, #e7eef2 0deg)`;
 
